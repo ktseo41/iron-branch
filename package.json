@@ -1,0 +1,14 @@
+{
+  "name": "clid2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "packageManager": "yarn@3.2.3",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.11.0",
+    "dotenv": "^16.0.2",
+    "inquirer": "^8.2.4"
+  }
+}
