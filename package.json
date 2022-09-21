@@ -6,9 +6,9 @@
   "packageManager": "yarn@3.2.3",
   "dependencies": {
     "axios": "^0.27.2",
-    "blessed": "^0.1.81",
-    "blessed-contrib": "^4.11.0",
     "dotenv": "^16.0.2",
-    "inquirer": "^8.2.4"
+    "import-jsx": "^4.0.1",
+    "ink": "^3.2.0",
+    "react": "^17.0.2"
   }
 }
