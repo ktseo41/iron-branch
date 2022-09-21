@@ -30,7 +30,7 @@ const App = () => {
       )}
       {selectedMatchId && (
         <Text>
-          <Text>(matchId: {selectedMatchId})</Text>
+          {/* <Text>(matchId: {selectedMatchId})</Text> */}
           <Newline />
           <Text backgroundColor="green" color="white">
             radiant: {radiantTeam}
