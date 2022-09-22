@@ -3,9 +3,9 @@ const React = require("react");
 const { useState } = require("react");
 const { render, Text, Box, Newline } = require("ink");
 const useLiveMatches = require("./hooks/useLiveMatches");
-const MatchSelector = require("import-jsx")("./match-selector.js");
+const MatchSelector = require("import-jsx")("./views/match-selector.js");
 const LivePlayerNetworth = require("import-jsx")(
-  "./components/live-player-networth.js"
+  "./views/live-player-networth.js"
 );
 
 const App = () => {

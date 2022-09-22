@@ -1,7 +1,7 @@
 "use strict";
 const React = require("react");
-const { extractTeamsFromGames } = require("./lib");
-const Prompts = require("import-jsx")("./prompts.js");
+const { extractTeamsFromGames } = require("../lib");
+const Prompts = require("import-jsx")("../components/prompts.js");
 
 module.exports = ({ matches = [], onSelected }) => {
   const onSubmit = (matchId) => {
