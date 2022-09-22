@@ -3,6 +3,7 @@ const React = require("react");
 const { useEffect, useState } = require("react");
 const { Box, Text } = require("ink");
 const useLiveMatches = require("../hooks/useLiveMatches");
+const usePlayerInfos = require("../hooks/usePlayerInfos");
 const useHeroes = require("../hooks/useHeroes");
 
 module.exports = ({ selectedMatchId } = {}) => {
@@ -11,6 +12,7 @@ module.exports = ({ selectedMatchId } = {}) => {
     from: "live player networth",
   });
   const heroes = useHeroes();
+  const { playerInfos, fetchPlayerInfo } = usePlayerInfos();
   const [sortedPlayerNetworths, setSortedPlayerNetworths] = useState([]);
 
   useEffect(() => {
@@ -39,6 +41,12 @@ module.exports = ({ selectedMatchId } = {}) => {
         }))
       );
 
+    if (allPlayers.some(({ account_id }) => !(account_id in playerInfos))) {
+      allPlayers.forEach(({ account_id }) => {
+        if (!(account_id in playerInfos)) fetchPlayerInfo(account_id);
+      });
+    }
+
     const sortedByNetWorth = allPlayers
       .sort((a, b) => b.net_worth - a.net_worth)
       .map(({ account_id, hero_id, net_worth, side }) => ({
@@ -55,7 +63,7 @@ module.exports = ({ selectedMatchId } = {}) => {
       }));
 
     setSortedPlayerNetworths(sortedByNetWorth);
-  }, [selectedMatchId, matches, heroes]);
+  }, [selectedMatchId, matches, heroes, playerInfos]);
 
   return (
     <Box flexDirection="column">
@@ -63,7 +71,7 @@ module.exports = ({ selectedMatchId } = {}) => {
         ({ account_id, player_name, hero_name, net_worth, side }) => (
           <Text key={account_id + hero_name}>
             [<Text>{side.slice(0, 1).toUpperCase()}</Text>] {net_worth} ||{" "}
-            {hero_name} || {player_name}
+            {hero_name} || {playerInfos[account_id]?.Name || player_name}
           </Text>
         )
       )}
