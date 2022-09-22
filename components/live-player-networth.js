@@ -57,14 +57,8 @@ module.exports = ({ selectedMatchId } = {}) => {
       {sortedPlayerNetworths.map(
         ({ account_id, player_name, hero_name, net_worth, side }) => (
           <Text key={account_id}>
-            [
-            <Text
-              backgroundColor={side === "radiant" ? "green" : "red"}
-              color="white"
-            >
-              {side.slice(0, 1).toUpperCase()}
-            </Text>
-            ] {net_worth} || {hero_name} || {player_name}
+            [<Text>{side.slice(0, 1).toUpperCase()}</Text>] {net_worth} ||{" "}
+            {hero_name} || {player_name}
             <Newline />
           </Text>
         )

@@ -32,13 +32,9 @@ const App = () => {
         <Text>
           {/* <Text>(matchId: {selectedMatchId})</Text> */}
           <Newline />
-          <Text backgroundColor="green" color="white">
-            radiant: {radiantTeam}
-          </Text>
+          <Text>radiant: {radiantTeam}</Text>
           <Text>{"  vs  "}</Text>
-          <Text backgroundColor="red" color="white">
-            dire: {direTeam}
-          </Text>
+          <Text>dire: {direTeam}</Text>
           <Newline />
           <Newline />
           <LivePlayerNetworth
