@@ -1,8 +1,8 @@
 "use strict";
 const React = require("react");
 const { useState } = require("react");
-const { render, Text, Box, Newline } = require("ink");
-const useLiveMatches = require("./hooks/useLiveMatches");
+const { render, Text, Box } = require("ink");
+const useMatches = require("./hooks/useMatches");
 const useGameState = require("./hooks/useGameState");
 const { GAME_STATE } = require("./constants");
 const LiveBanpickPhase = require("import-jsx")("./views/live-banpick-phase.js");
@@ -12,7 +12,7 @@ const LivePlayerNetworth = require("import-jsx")(
 );
 
 const App = () => {
-  const matches = useLiveMatches();
+  const { matches, isFetching } = useMatches();
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const gameState = useGameState({ selectedMatchId });
   const [radiantTeam, setRadiantTeam] = useState(null);
@@ -26,7 +26,7 @@ const App = () => {
 
   return (
     <Box flexDirection="column">
-      {!selectedMatchId && (
+      {!selectedMatchId && !isFetching && matches && (
         <MatchSelector
           matches={matches}
           onSelected={onSelected}
