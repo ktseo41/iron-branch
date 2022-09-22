@@ -45,18 +45,15 @@ module.exports = ({ useInterval, from = randomId() } = {}) => {
     }
 
     async function fetchLiveMatchesWithCache() {
-      console.log({ from }, "liveMatchesCalled");
       const cache = getCache();
 
       if (cache) {
-        console.log({ from }, "liveMatchesCalled cached");
         setMatches(cache);
         return;
       }
 
       setIsFetching(true);
       const { games: _matches } = (await getLiveLeagueMatches()) || {};
-      console.log({ from }, "liveMatchesCalled fetched");
 
       if (!_matches) return console.error("No matches found");
 
