@@ -6,7 +6,10 @@ const useLiveMatches = require("../hooks/useLiveMatches");
 const useHeroes = require("../hooks/useHeroes");
 
 module.exports = ({ selectedMatchId } = {}) => {
-  const matches = useLiveMatches({ useInterval: true });
+  const { matches } = useLiveMatches({
+    useInterval: true,
+    from: "live banpick phase",
+  });
   const heroes = useHeroes();
   const [rPicks, setRPicks] = useState([]);
   const [rBans, setRBans] = useState([]);
@@ -31,7 +34,7 @@ module.exports = ({ selectedMatchId } = {}) => {
     setRBans(rBans);
     setDPicks(dPicks);
     setDBans(dBans);
-  }, [selectedMatchId, matches]);
+  }, [matches]);
 
   return (
     <Box flexDirection="column">

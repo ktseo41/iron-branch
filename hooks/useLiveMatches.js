@@ -2,8 +2,7 @@
 const React = require("react");
 const { useEffect, useState } = require("react");
 const { getLiveLeagueGames: getLiveLeagueMatches } = require("../lib/apis");
-const fs = require("fs");
-const path = require("path");
+const { randomId } = require("../lib");
 
 /**
  * @typedef {Object} Cache
@@ -29,37 +28,43 @@ function setCache(matches) {
   cache.matches = matches;
 }
 
-let intervalId;
+const intervalIds = {};
 
-module.exports = ({ useInterval } = {}) => {
+module.exports = ({ useInterval, from = randomId() } = {}) => {
+  const [isFetching, setIsFetching] = useState(false);
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
     fetchLiveMatchesWithCache();
 
-    if (useInterval && !intervalId) {
-      intervalId = setInterval(() => {
+    if (useInterval && !intervalIds[from]) {
+      intervalIds[from] = setInterval(() => {
         fetchLiveMatchesWithCache();
       }, 1000 * 10);
-      return () => clearInterval(intervalId);
+      return () => clearInterval(intervalIds[from]);
     }
 
     async function fetchLiveMatchesWithCache() {
+      console.log({ from }, "liveMatchesCalled");
       const cache = getCache();
 
       if (cache) {
+        console.log({ from }, "liveMatchesCalled cached");
         setMatches(cache);
         return;
       }
 
-      const { games: matches } = (await getLiveLeagueMatches()) || {};
+      setIsFetching(true);
+      const { games: _matches } = (await getLiveLeagueMatches()) || {};
+      console.log({ from }, "liveMatchesCalled fetched");
 
-      if (!matches) return console.error("No matches found");
+      if (!_matches) return console.error("No matches found");
 
-      setCache(matches);
-      setMatches(matches);
+      setCache(_matches);
+      setMatches(_matches);
+      setIsFetching(false);
     }
   }, []);
 
-  return matches;
+  return { matches, isFetching };
 };

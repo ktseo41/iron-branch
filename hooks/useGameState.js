@@ -5,7 +5,10 @@ const { GAME_STATE } = require("../constants");
 const useLiveMatches = require("../hooks/useLiveMatches");
 
 module.exports = ({ selectedMatchId } = {}) => {
-  const matches = useLiveMatches({ useInterval: true });
+  const { matches } = useLiveMatches({
+    useInterval: true,
+    from: "useGameState",
+  });
   const [gameState, setGameState] = useState(null);
 
   useEffect(() => {
@@ -30,7 +33,7 @@ module.exports = ({ selectedMatchId } = {}) => {
     }
 
     setGameState(GAME_STATE.IN_GAME);
-  }, [matches, selectedMatchId]);
+  }, [selectedMatchId, matches]);
 
   return gameState;
 };

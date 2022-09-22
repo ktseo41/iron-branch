@@ -6,7 +6,10 @@ const useLiveMatches = require("../hooks/useLiveMatches");
 const useHeroes = require("../hooks/useHeroes");
 
 module.exports = ({ selectedMatchId } = {}) => {
-  const matches = useLiveMatches({ useInterval: true });
+  const { matches } = useLiveMatches({
+    useInterval: true,
+    from: "live player networth",
+  });
   const heroes = useHeroes();
   const [sortedPlayerNetworths, setSortedPlayerNetworths] = useState([]);
 

@@ -1,5 +1,6 @@
 "use strict";
 const React = require("react");
+const { Text } = require("ink");
 const { extractTeamsFromGames } = require("../lib");
 const Prompts = require("import-jsx")("../components/prompts.js");
 
@@ -10,10 +11,12 @@ module.exports = ({ matches = [], onSelected }) => {
     }
   };
 
-  return (
+  return matches?.length > 0 ? (
     <Prompts
       items={extractTeamsFromGames(matches)}
       onSubmit={onSubmit}
     ></Prompts>
+  ) : (
+    <Text>no matches found. try refresh</Text>
   );
 };
