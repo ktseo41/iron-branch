@@ -6,12 +6,12 @@ const useHeroes = require("../hooks/useHeroes");
 const { Text, Newline } = require("ink");
 
 module.exports = ({ selectedMatchId } = {}) => {
-  const matches = useLiveMatches({ interval: 1000 * 10 });
+  const matches = useLiveMatches({ useInterval: true });
   const heroes = useHeroes();
   const [sortedPlayerNetworths, setSortedPlayerNetworths] = useState([]);
 
   useEffect(() => {
-    if (!selectedMatchId || !matches.length) return;
+    if (!selectedMatchId || !matches.length || !heroes?.length) return;
 
     const selectedMatch = matches.find(
       (match) => match.match_id === selectedMatchId
@@ -50,7 +50,7 @@ module.exports = ({ selectedMatchId } = {}) => {
       }));
 
     setSortedPlayerNetworths(sortedByNetWorth);
-  }, [selectedMatchId, matches]);
+  }, [selectedMatchId, matches, heroes]);
 
   return (
     <Text>
