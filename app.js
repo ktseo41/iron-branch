@@ -3,6 +3,9 @@ const React = require("react");
 const { useState } = require("react");
 const { render, Text, Box, Newline } = require("ink");
 const useLiveMatches = require("./hooks/useLiveMatches");
+const useGameState = require("./hooks/useGameState");
+const { GAME_STATE } = require("./constants");
+const LiveBanpickPhase = require("import-jsx")("./views/live-banpick-phase.js");
 const MatchSelector = require("import-jsx")("./views/match-selector.js");
 const LivePlayerNetworth = require("import-jsx")(
   "./views/live-player-networth.js"
@@ -11,6 +14,7 @@ const LivePlayerNetworth = require("import-jsx")(
 const App = () => {
   const matches = useLiveMatches();
   const [selectedMatchId, setSelectedMatchId] = useState(null);
+  const gameState = useGameState({ selectedMatchId });
   const [radiantTeam, setRadiantTeam] = useState(null);
   const [direTeam, setDireTeam] = useState(null);
 
@@ -35,10 +39,18 @@ const App = () => {
             <Text>{"  vs  "}</Text>
             <Text>dire: {direTeam}</Text>
           </Text>
-          <LivePlayerNetworth
-            selectedMatchId={selectedMatchId}
-          ></LivePlayerNetworth>
         </Box>
+      )}
+      {gameState && gameState === GAME_STATE.WAIT_IN_LOBBY && (
+        <Text>{GAME_STATE.WAIT_IN_LOBBY}</Text>
+      )}
+      {gameState && gameState === GAME_STATE.BAN_PICK_PHASE && (
+        <LiveBanpickPhase selectedMatchId={selectedMatchId}></LiveBanpickPhase>
+      )}
+      {gameState && gameState === GAME_STATE.IN_GAME && (
+        <LivePlayerNetworth
+          selectedMatchId={selectedMatchId}
+        ></LivePlayerNetworth>
       )}
     </Box>
   );

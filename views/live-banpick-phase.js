@@ -1,7 +1,7 @@
 "use strict";
 const React = require("react");
 const { useEffect, useState } = require("react");
-const { Box, Text } = require("ink");
+const { Box, Text, Newline } = require("ink");
 const useLiveMatches = require("../hooks/useLiveMatches");
 const useHeroes = require("../hooks/useHeroes");
 
@@ -14,7 +14,7 @@ module.exports = ({ selectedMatchId } = {}) => {
   const [dBans, setDBans] = useState([]);
 
   useEffect(() => {
-    if (!selectedMatchId || !matches.length || !heroes?.length) return;
+    if (!selectedMatchId || !matches.length) return;
 
     const selectedMatch = matches.find(
       (match) => match.match_id === selectedMatchId
@@ -31,10 +31,11 @@ module.exports = ({ selectedMatchId } = {}) => {
     setRBans(rBans);
     setDPicks(dPicks);
     setDBans(dBans);
-  }, [selectedMatchId, matches, heroes]);
+  }, [selectedMatchId, matches]);
 
   return (
     <Box flexDirection="column">
+      <Text>--- ban/pick ---</Text>
       <Box>
         <Box width="6%">
           <Text></Text>
@@ -50,25 +51,29 @@ module.exports = ({ selectedMatchId } = {}) => {
         <Box width="6%">
           <Text>pick</Text>
         </Box>
-        <Box width="47%">
+        <Box flexDirection="column" width="47%">
           {rPicks &&
             rPicks.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {heroes
-                  .find((hero) => hero.id === hero_id)
-                  ?.name?.replace("npc_dota_hero_", "") || "unknown hero"}
-                {idx !== rPicks.length - 1 && " | "}
+                {(heroes &&
+                  heroes
+                    .find((hero) => hero.id === hero_id)
+                    ?.name?.replace("npc_dota_hero_", "")) ||
+                  "unknown hero"}
+                {idx === rPicks.length - 1 && <Newline />}
               </Text>
             ))}
         </Box>
-        <Box width="47%">
+        <Box flexDirection="column" width="47%">
           {dPicks &&
             dPicks.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {heroes
-                  .find((hero) => hero.id === hero_id)
-                  ?.name?.replace("npc_dota_hero_", "") || "unknown hero"}
-                {idx !== dPicks.length - 1 && " | "}
+                {(heroes &&
+                  heroes
+                    .find((hero) => hero.id === hero_id)
+                    ?.name?.replace("npc_dota_hero_", "")) ||
+                  "unknown hero"}
+                {idx === dPicks.length - 1 && <Newline />}
               </Text>
             ))}
         </Box>
@@ -77,25 +82,29 @@ module.exports = ({ selectedMatchId } = {}) => {
         <Box width="6%">
           <Text>ban</Text>
         </Box>
-        <Box width="47%">
+        <Box flexDirection="column" width="47%">
           {rBans &&
             rBans.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {heroes
-                  .find((hero) => hero.id === hero_id)
-                  ?.name?.replace("npc_dota_hero_", "") || "unknown hero"}
-                {idx !== rBans.length - 1 && " | "}
+                {(heroes &&
+                  heroes
+                    .find((hero) => hero.id === hero_id)
+                    ?.name?.replace("npc_dota_hero_", "")) ||
+                  "unknown hero"}
+                {idx === rBans.length - 1 && <Newline />}
               </Text>
             ))}
         </Box>
-        <Box width="47%">
+        <Box flexDirection="column" width="47%">
           {dBans &&
             dBans.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {heroes
-                  .find((hero) => hero.id === hero_id)
-                  ?.name?.replace("npc_dota_hero_", "") || "unknown hero"}
-                {idx !== dBans.length - 1 && " | "}
+                {(heroes &&
+                  heroes
+                    .find((hero) => hero.id === hero_id)
+                    ?.name?.replace("npc_dota_hero_", "")) ||
+                  "unknown hero"}
+                {idx === dBans.length - 1 && <Newline />}
               </Text>
             ))}
         </Box>
