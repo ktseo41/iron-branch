@@ -40,19 +40,19 @@ const App = () => {
             <Text>{"  vs  "}</Text>
             <Text>dire: {direTeam}</Text>
             <Text> </Text>
-            {gameState && gameState === GAME_STATE.IN_GAME && (
+            {gameState === GAME_STATE.IN_GAME && (
               <Timer selectedMatchId={selectedMatchId}></Timer>
             )}
           </Text>
         </Box>
       )}
-      {gameState && gameState === GAME_STATE.WAIT_IN_LOBBY && (
+      {gameState === GAME_STATE.WAIT_IN_LOBBY && (
         <Text>{GAME_STATE.WAIT_IN_LOBBY}</Text>
       )}
-      {gameState && gameState === GAME_STATE.BAN_PICK_PHASE && (
+      {gameState === GAME_STATE.BAN_PICK_PHASE && (
         <LiveBanpickPhase selectedMatchId={selectedMatchId}></LiveBanpickPhase>
       )}
-      {gameState && gameState === GAME_STATE.IN_GAME && (
+      {gameState === GAME_STATE.IN_GAME && (
         <LivePlayerNetworth
           selectedMatchId={selectedMatchId}
         ></LivePlayerNetworth>
