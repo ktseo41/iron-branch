@@ -2,7 +2,7 @@
 const React = require("react");
 const { useEffect, useState } = require("react");
 const { getLiveLeagueGames: getLiveLeagueMatches } = require("../lib/apis");
-const { randomId } = require("../lib");
+const { randomId } = require("../lib/utils");
 
 /**
  * @typedef {Object} Cache

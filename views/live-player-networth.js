@@ -5,6 +5,7 @@ const { Box, Text } = require("ink");
 const useLiveMatches = require("../hooks/useLiveMatches");
 const usePlayerInfos = require("../hooks/usePlayerInfos");
 const useHeroes = require("../hooks/useHeroes");
+const { archiveMatch } = require("../lib/utils");
 
 module.exports = ({ selectedMatchId } = {}) => {
   const { matches } = useLiveMatches({
