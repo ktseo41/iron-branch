@@ -19,10 +19,10 @@ const App = () => {
   const [radiantTeam, setRadiantTeam] = useState(null);
   const [direTeam, setDireTeam] = useState(null);
 
-  function onSelected({ id, radiant_team, dire_team }) {
+  function onSelected({ id, radiantTeam, direTeam }) {
     setSelectedMatchId(id);
-    setRadiantTeam(radiant_team);
-    setDireTeam(dire_team);
+    setRadiantTeam(radiantTeam);
+    setDireTeam(direTeam);
   }
 
   return (
