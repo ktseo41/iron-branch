@@ -36,13 +36,13 @@ const App = () => {
       {selectedMatchId && (
         <Box flexDirection="column">
           <Text>
-            <Text>radiant: {radiantTeam}</Text>
-            <Text>{"  vs  "}</Text>
-            <Text>dire: {direTeam}</Text>
-            <Text> </Text>
+            <Text>(radiant) {radiantTeam}</Text>
+            <Text>{"   "}</Text>
             {gameState === GAME_STATE.IN_GAME && (
               <Timer selectedMatchId={selectedMatchId}></Timer>
             )}
+            <Text>{"   "}</Text>
+            <Text>{direTeam} (dire)</Text>
           </Text>
         </Box>
       )}
