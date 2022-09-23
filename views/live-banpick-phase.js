@@ -40,21 +40,21 @@ module.exports = ({ selectedMatchId } = {}) => {
     <Box flexDirection="column">
       <Text>--- ban/pick ---</Text>
       <Box>
-        <Box width="6%">
+        <Box width="9%" paddingRight={1}>
           <Text></Text>
         </Box>
-        <Box width="47%">
+        <Box width="45%">
           <Text>radiant</Text>
         </Box>
-        <Box width="47%">
+        <Box width="45%">
           <Text>dire</Text>
         </Box>
       </Box>
       <Box>
-        <Box width="6%">
+        <Box width="9%" paddingRight={1}>
           <Text>pick</Text>
         </Box>
-        <Box flexDirection="column" width="47%">
+        <Box flexDirection="column" width="45%">
           {rPicks &&
             rPicks.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
@@ -67,7 +67,7 @@ module.exports = ({ selectedMatchId } = {}) => {
               </Text>
             ))}
         </Box>
-        <Box flexDirection="column" width="47%">
+        <Box flexDirection="column" width="45%">
           {dPicks &&
             dPicks.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
@@ -82,10 +82,10 @@ module.exports = ({ selectedMatchId } = {}) => {
         </Box>
       </Box>
       <Box>
-        <Box width="6%">
+        <Box width="9%" paddingRight={1}>
           <Text>ban</Text>
         </Box>
-        <Box flexDirection="column" width="47%">
+        <Box flexDirection="column" width="45%">
           {rBans &&
             rBans.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
@@ -98,7 +98,7 @@ module.exports = ({ selectedMatchId } = {}) => {
               </Text>
             ))}
         </Box>
-        <Box flexDirection="column" width="47%">
+        <Box flexDirection="column" width="45%">
           {dBans &&
             dBans.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
