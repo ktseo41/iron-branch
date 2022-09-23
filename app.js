@@ -10,6 +10,7 @@ const MatchSelector = require("import-jsx")("./views/match-selector.js");
 const LivePlayerNetworth = require("import-jsx")(
   "./views/live-player-networth.js"
 );
+const Timer = require("import-jsx")("./views/timer.js");
 
 const App = () => {
   const { matches, isFetching } = useMatches();
@@ -38,6 +39,10 @@ const App = () => {
             <Text>radiant: {radiantTeam}</Text>
             <Text>{"  vs  "}</Text>
             <Text>dire: {direTeam}</Text>
+            <Text> </Text>
+            {gameState && gameState === GAME_STATE.IN_GAME && (
+              <Timer selectedMatchId={selectedMatchId}></Timer>
+            )}
           </Text>
         </Box>
       )}
