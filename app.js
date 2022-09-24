@@ -1,6 +1,6 @@
 "use strict";
 const React = require("react");
-const { useState } = require("react");
+const { useState, useEffect } = require("react");
 const { render, Text, Box } = require("ink");
 const useMatches = require("./hooks/useMatches");
 const useGameState = require("./hooks/useGameState");
@@ -15,7 +15,8 @@ const LivePlayerNetworth = require("import-jsx")(
 );
 
 const App = () => {
-  const { matches, isFetching } = useMatches();
+  const { matches, isFetching, fetchLiveMatches } = useMatches();
+  const [refetchInterval, setRefetchInterval] = useState(5);
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const gameState = useGameState({ selectedMatchId });
   const [radiantTeam, setRadiantTeam] = useState(null);
@@ -27,14 +28,32 @@ const App = () => {
     setDireTeam(direTeam);
   }
 
+  useEffect(() => {
+    if (!matches?.length && refetchInterval) {
+      setTimeout(() => {
+        if (refetchInterval) {
+          setRefetchInterval((refetchInterval) => (refetchInterval -= 1));
+          return;
+        }
+
+        fetchLiveMatches();
+        setRefetchInterval(5);
+      }, 1000);
+    }
+  }, [matches, refetchInterval]);
+
   return (
     <Box flexDirection="column">
-      {!selectedMatchId && !isFetching && matches && (
-        <MatchSelector
-          matches={matches}
-          onSelected={onSelected}
-        ></MatchSelector>
-      )}
+      {!selectedMatchId &&
+        (isFetching ? (
+          <Text>fetching matches...</Text>
+        ) : !matches?.length ? (
+          <Text>
+            no matches found. try refresh{".".repeat(refetchInterval / 4)}
+          </Text>
+        ) : (
+          <MatchSelector matches={matches} onSelected={onSelected} />
+        ))}
       {selectedMatchId && (
         <Box flexDirection="column">
           <Text>
