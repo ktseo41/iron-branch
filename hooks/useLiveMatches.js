@@ -3,6 +3,7 @@ const React = require("react");
 const { useEffect, useState } = require("react");
 const { getLiveLeagueGames: getLiveLeagueMatches } = require("../lib/apis");
 const { randomId } = require("../lib/utils");
+const { TICK_RATE } = require("../constants");
 
 /**
  * @typedef {Object} Cache
@@ -18,7 +19,7 @@ function getCache() {
   const lastCacheTime = cache.time;
   const diff = now - lastCacheTime;
 
-  if (diff > 1000 * 10) return null;
+  if (diff >= TICK_RATE) return null;
 
   return cache.matches;
 }
@@ -40,7 +41,7 @@ module.exports = ({ useInterval, from = randomId() } = {}) => {
     if (useInterval && !intervalIds[from]) {
       intervalIds[from] = setInterval(() => {
         fetchLiveMatchesWithCache();
-      }, 1000 * 10);
+      }, TICK_RATE);
       return () => clearInterval(intervalIds[from]);
     }
 

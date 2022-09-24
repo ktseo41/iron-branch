@@ -4,6 +4,9 @@ const GAME_STATE = {
   IN_GAME: "in game",
 };
 
+const TICK_RATE = 1000 * 3;
+
 module.exports = {
   GAME_STATE,
+  TICK_RATE,
 };
