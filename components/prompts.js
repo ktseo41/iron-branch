@@ -8,7 +8,7 @@ module.exports = ({ items, onSubmit }) => {
   const { focus, focusNext, focusPrevious } = useFocusManager();
 
   useEffect(() => {
-    if (items?.length) {
+    if (items?.length && !focusedValue) {
       const [firstItem] = items;
 
       focus(firstItem.id);
