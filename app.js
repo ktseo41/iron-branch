@@ -5,12 +5,14 @@ const { render, Text, Box } = require("ink");
 const useMatches = require("./hooks/useMatches");
 const useGameState = require("./hooks/useGameState");
 const { GAME_STATE } = require("./constants");
+const TimerAndTeamNetworthDiff = require("import-jsx")(
+  "./views/timerAndTeamNetworthDiff"
+);
 const LiveBanpickPhase = require("import-jsx")("./views/live-banpick-phase.js");
 const MatchSelector = require("import-jsx")("./views/match-selector.js");
 const LivePlayerNetworth = require("import-jsx")(
   "./views/live-player-networth.js"
 );
-const Timer = require("import-jsx")("./views/timer.js");
 
 const App = () => {
   const { matches, isFetching } = useMatches();
@@ -37,11 +39,11 @@ const App = () => {
         <Box flexDirection="column">
           <Text>
             <Text>(radiant) {radiantTeam}</Text>
-            <Text>{"   "}</Text>
             {gameState === GAME_STATE.IN_GAME && (
-              <Timer selectedMatchId={selectedMatchId}></Timer>
+              <TimerAndTeamNetworthDiff
+                selectedMatchId={selectedMatchId}
+              ></TimerAndTeamNetworthDiff>
             )}
-            <Text>{"   "}</Text>
             <Text>{direTeam} (dire)</Text>
           </Text>
         </Box>
