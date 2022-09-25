@@ -4,7 +4,7 @@ const { useEffect, useState } = require("react");
 const { getLiveLeagueGames: getLiveLeagueMatches } = require("../lib/apis");
 
 module.exports = () => {
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [matches, setMatches] = useState([]);
 
   async function fetchLiveMatches() {
