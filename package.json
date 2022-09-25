@@ -7,7 +7,8 @@
     "iron-branch": "dist/bundle.cjs"
   },
   "scripts": {
-    "build": "esbuild --bundle --platform=node --target=node14 --format=cjs --outfile=dist/bundle.cjs --jsx=automatic App.jsx"
+    "dev": "esbuild --bundle --platform=node --target=node14 --format=cjs --outfile=dist/bundle.cjs --jsx=automatic App.jsx --watch && node dist/bundle.cjs",
+    "build": "esbuild --bundle --platform=node --target=node14 --format=cjs --outfile=dist/bundle.cjs --jsx=automatic --minify App.jsx"
   },
   "devDependencies": {
     "esbuild": "^0.15.9",
