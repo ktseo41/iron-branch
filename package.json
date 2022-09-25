@@ -1,8 +1,11 @@
 {
   "name": "iron-branch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/bundle.cjs",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "iron-branch": "dist/bundle.cjs"
   },
