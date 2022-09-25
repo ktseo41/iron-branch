@@ -1,13 +1,18 @@
 {
-  "name": "clid2",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "iron-branch",
+  "version": "0.1.0",
+  "main": "dist/bundle.cjs",
   "license": "MIT",
-  "packageManager": "yarn@3.2.3",
-  "dependencies": {
+  "bin": {
+    "iron-branch": "dist/bundle.cjs"
+  },
+  "scripts": {
+    "build": "esbuild --bundle --platform=node --target=node14 --format=cjs --outfile=dist/bundle.cjs --jsx=automatic App.jsx"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.9",
     "axios": "^0.27.2",
     "dotenv": "^16.0.2",
-    "import-jsx": "^4.0.1",
     "ink": "^3.2.0",
     "react": "^17.0.2"
   }

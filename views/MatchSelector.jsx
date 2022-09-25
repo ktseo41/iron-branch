@@ -1,9 +1,7 @@
-"use strict";
-const React = require("react");
-const { Text } = require("ink");
-const Prompts = require("import-jsx")("../components/prompts.js");
-const { getGameStateFromMatch } = require("../lib/match");
-const { GAME_STATE } = require("../constants");
+import { Text } from "ink";
+import Prompts from "../components/prompts";
+import { getGameStateFromMatch } from "../lib/match";
+import { GAME_STATE } from "../constants";
 
 function extractTeamsFromGames(games) {
   const gameSummaries = games

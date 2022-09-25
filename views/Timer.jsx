@@ -1,8 +1,6 @@
-"use strict";
-const React = require("react");
-const { useEffect, useState } = require("react");
-const { Text } = require("ink");
-const useLiveMatches = require("../hooks/useLiveMatches");
+import { useEffect, useState } from "react";
+import { Text } from "ink";
+import useLiveMatches from "../hooks/useLiveMatches";
 
 module.exports = ({ selectedMatchId } = {}) => {
   const { matches } = useLiveMatches({

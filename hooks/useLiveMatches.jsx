@@ -1,9 +1,7 @@
-"use strict";
-const React = require("react");
-const { useEffect, useState } = require("react");
-const { getLiveLeagueGames: getLiveLeagueMatches } = require("../lib/apis");
-const { randomId } = require("../lib/utils");
-const { TICK_RATE } = require("../constants");
+import { useEffect, useState } from "react";
+import { getLiveLeagueGames as getLiveLeagueMatches } from "../lib/apis";
+import { randomId } from "../lib/utils";
+import { TICK_RATE } from "../constants";
 
 /**
  * @typedef {Object} Cache
@@ -31,7 +29,7 @@ function setCache(matches) {
 
 const intervalIds = {};
 
-module.exports = ({ useInterval, from = randomId() } = {}) => {
+export default ({ useInterval, from = randomId() } = {}) => {
   const [isFetching, setIsFetching] = useState(false);
   const [matches, setMatches] = useState([]);
 

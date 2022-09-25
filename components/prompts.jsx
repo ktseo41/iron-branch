@@ -1,10 +1,8 @@
-"use strict";
-const React = require("react");
-const { useEffect } = require("react");
-const { Box, Text, useFocus, useFocusManager, useInput } = require("ink");
+import { useEffect, useState } from "react";
+import { Box, Text, useFocus, useFocusManager, useInput } from "ink";
 
-module.exports = ({ items, onSubmit }) => {
-  const [focusedValue, setFocusedValue] = React.useState(null);
+export default ({ items, onSubmit }) => {
+  const [focusedValue, setFocusedValue] = useState(null);
   const { focus, focusNext, focusPrevious } = useFocusManager();
 
   useEffect(() => {

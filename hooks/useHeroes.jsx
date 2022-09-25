@@ -1,9 +1,7 @@
-"use strict";
-const React = require("react");
-const { useEffect, useState } = require("react");
-const { getHeroes } = require("../lib/apis");
+import { useEffect, useState } from "react";
+import { getHeroes } from "../lib/apis";
 
-module.exports = () => {
+export default () => {
   const [heroes, setHeroes] = useState([]);
 
   useEffect(() => {

@@ -1,9 +1,7 @@
-"use strict";
-const React = require("react");
-const { useEffect, useState } = require("react");
-const { getLiveLeagueGames: getLiveLeagueMatches } = require("../lib/apis");
+import { useEffect, useState } from "react";
+import { getLiveLeagueGames as getLiveLeagueMatches } from "../lib/apis";
 
-module.exports = () => {
+export default () => {
   const [isFetching, setIsFetching] = useState(true);
   const [matches, setMatches] = useState([]);
 

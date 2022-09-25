@@ -1,18 +1,12 @@
-"use strict";
-const React = require("react");
-const { useState, useEffect } = require("react");
-const { render, Text, Box } = require("ink");
-const useMatches = require("./hooks/useMatches");
-const useGameState = require("./hooks/useGameState");
-const { GAME_STATE } = require("./constants");
-const TimerAndTeamNetworthDiff = require("import-jsx")(
-  "./views/timerAndTeamNetworthDiff"
-);
-const LiveBanpickPhase = require("import-jsx")("./views/live-banpick-phase.js");
-const MatchSelector = require("import-jsx")("./views/match-selector.js");
-const LivePlayerNetworth = require("import-jsx")(
-  "./views/live-player-networth.js"
-);
+import { useEffect, useState } from "react";
+import { render, Box, Text } from "ink";
+import useMatches from "./hooks/useMatches";
+import useGameState from "./hooks/useGameState";
+import { GAME_STATE } from "./constants";
+import TimerAndTeamNetworthDiff from "./views/TimerAndTeamNetworthDiff";
+import LiveBanpickPhase from "./views/LiveBanpickPhase";
+import MatchSelector from "./views/MatchSelector";
+import LivePlayerNetworth from "./views/LivePlayerNetworth";
 
 const App = () => {
   const { matches, isFetching, fetchLiveMatches } = useMatches();
@@ -32,7 +26,7 @@ const App = () => {
     if (!matches?.length && refetchInterval) {
       setTimeout(() => {
         if (refetchInterval) {
-          setRefetchInterval((refetchInterval) => (refetchInterval -= 1));
+          setRefetchInterval(refetchInterval - 1);
           return;
         }
 
@@ -49,7 +43,8 @@ const App = () => {
           <Text>fetching matches...</Text>
         ) : !matches?.length ? (
           <Text>
-            no matches found. try refresh{".".repeat(refetchInterval / 4)}
+            no matches found. try refresh
+            {".".repeat(4 - (refetchInterval % 4) || 0)}
           </Text>
         ) : (
           <MatchSelector matches={matches} onSelected={onSelected} />
@@ -58,10 +53,12 @@ const App = () => {
         <Box flexDirection="column">
           <Text>
             <Text>(radiant) {radiantTeam}</Text>
-            {gameState === GAME_STATE.IN_GAME && (
+            {gameState === GAME_STATE.IN_GAME ? (
               <TimerAndTeamNetworthDiff
                 selectedMatchId={selectedMatchId}
               ></TimerAndTeamNetworthDiff>
+            ) : (
+              " vs "
             )}
             <Text>{direTeam} (dire)</Text>
           </Text>

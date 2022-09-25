@@ -1,10 +1,8 @@
-"use strict";
-const React = require("react");
-const { useEffect, useState } = require("react");
-const useLiveMatches = require("../hooks/useLiveMatches");
-const { getGameStateFromMatch } = require("../lib/match");
+import { useEffect, useState } from "react";
+import useLiveMatches from "./useLiveMatches"
+import { getGameStateFromMatch } from "../lib/match";
 
-module.exports = ({ selectedMatchId } = {}) => {
+export default ({ selectedMatchId } = {}) => {
   const { matches } = useLiveMatches({
     useInterval: true,
     from: "useGameState",
