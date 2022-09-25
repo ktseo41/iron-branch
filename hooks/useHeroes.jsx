@@ -5,15 +5,15 @@ export default () => {
   const [heroes, setHeroes] = useState([]);
 
   useEffect(() => {
-    fetchHeroes();
-
+    // eslint-disable-next-line consistent-return
     async function fetchHeroes() {
-      const { heroes } = (await getHeroes()) || {};
+      const { heroes: fetchedHeroes } = (await getHeroes()) || {};
 
-      if (!heroes) return console.error("No heroes found");
+      if (!fetchedHeroes) return console.error("No heroes found");
 
-      setHeroes(heroes);
+      setHeroes(fetchedHeroes);
     }
+    fetchHeroes();
   }, []);
 
   return heroes;

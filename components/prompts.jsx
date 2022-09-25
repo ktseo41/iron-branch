@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Box, Text, useFocus, useFocusManager, useInput } from "ink";
+import {
+  Box, Text, useFocus, useFocusManager, useInput,
+} from "ink";
 
-export default ({ items, onSubmit }) => {
+export default function Prompts({ items, onSubmit }) {
   const [focusedValue, setFocusedValue] = useState(null);
   const { focus, focusNext, focusPrevious } = useFocusManager();
 
@@ -27,7 +30,6 @@ export default ({ items, onSubmit }) => {
 
     if (key.return) {
       onSubmit(focusedValue);
-      return;
     }
   });
 
@@ -40,13 +42,15 @@ export default ({ items, onSubmit }) => {
           label={label}
           value={value}
           onFocus={setFocusedValue}
-        ></PromptItem>
+        />
       ))}
     </Box>
   );
-};
+}
 
-const PromptItem = ({ label, id, value, onFocus }) => {
+function PromptItem({
+  label, id, value, onFocus,
+}) {
   const { isFocused } = useFocus({ id });
 
   useEffect(() => {
@@ -57,7 +61,9 @@ const PromptItem = ({ label, id, value, onFocus }) => {
 
   return (
     <Text color={isFocused ? "green" : ""}>
-      {label} {isFocused && <Text>{"<"}</Text>}
+      {label}
+      {" "}
+      {isFocused && <Text>{"<"}</Text>}
     </Text>
   );
-};
+}

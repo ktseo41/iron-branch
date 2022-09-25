@@ -34,6 +34,27 @@ export default ({ useInterval, from = randomId() } = {}) => {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
+    async function fetchLiveMatchesWithCache() {
+      const prevCache = getCache();
+
+      if (prevCache) {
+        setMatches(prevCache);
+        return;
+      }
+
+      setIsFetching(true);
+      const { games: _matches } = (await getLiveLeagueMatches()) || {};
+
+      if (!_matches) {
+        console.error("No matches found");
+        return;
+      }
+
+      setCache(_matches);
+      setMatches(_matches);
+      setIsFetching(false);
+    }
+
     fetchLiveMatchesWithCache();
 
     if (useInterval && !intervalIds[from]) {
@@ -43,23 +64,7 @@ export default ({ useInterval, from = randomId() } = {}) => {
       return () => clearInterval(intervalIds[from]);
     }
 
-    async function fetchLiveMatchesWithCache() {
-      const cache = getCache();
-
-      if (cache) {
-        setMatches(cache);
-        return;
-      }
-
-      setIsFetching(true);
-      const { games: _matches } = (await getLiveLeagueMatches()) || {};
-
-      if (!_matches) return console.error("No matches found");
-
-      setCache(_matches);
-      setMatches(_matches);
-      setIsFetching(false);
-    }
+    return () => {};
   }, []);
 
   return { matches, isFetching };

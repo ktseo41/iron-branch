@@ -5,6 +5,7 @@ export default () => {
   const [isFetching, setIsFetching] = useState(true);
   const [matches, setMatches] = useState([]);
 
+  // eslint-disable-next-line consistent-return
   async function fetchLiveMatches() {
     setIsFetching(true);
     const { games: _matches } = (await getLiveLeagueMatches()) || {};

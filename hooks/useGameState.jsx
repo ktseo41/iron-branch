@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useLiveMatches from "./useLiveMatches"
+import useLiveMatches from "./useLiveMatches";
 import { getGameStateFromMatch } from "../lib/match";
 
 export default ({ selectedMatchId } = {}) => {
@@ -12,8 +12,7 @@ export default ({ selectedMatchId } = {}) => {
   useEffect(() => {
     if (!selectedMatchId || !matches.length) return;
 
-    const selectedMatch =
-      matches.find((match) => match.match_id === selectedMatchId) || {};
+    const selectedMatch = matches.find((match) => match.match_id === selectedMatchId) || {};
 
     setGameState(getGameStateFromMatch(selectedMatch));
   }, [selectedMatchId, matches]);

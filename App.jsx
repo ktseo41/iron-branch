@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { useEffect, useState } from "react";
 import { render, Box, Text } from "ink";
 import useMatches from "./hooks/useMatches";
@@ -8,7 +9,7 @@ import LiveBanpickPhase from "./views/LiveBanpickPhase";
 import MatchSelector from "./views/MatchSelector";
 import LivePlayerNetworth from "./views/LivePlayerNetworth";
 
-const App = () => {
+function App() {
   const { matches, isFetching, fetchLiveMatches } = useMatches();
   const [refetchInterval, setRefetchInterval] = useState(5);
   const [selectedMatchId, setSelectedMatchId] = useState(null);
@@ -16,10 +17,10 @@ const App = () => {
   const [radiantTeam, setRadiantTeam] = useState(null);
   const [direTeam, setDireTeam] = useState(null);
 
-  function onSelected({ id, radiantTeam, direTeam }) {
+  function onSelected({ id, _radiantTeam, _direTeam }) {
     setSelectedMatchId(id);
-    setRadiantTeam(radiantTeam);
-    setDireTeam(direTeam);
+    setRadiantTeam(_radiantTeam);
+    setDireTeam(_direTeam);
   }
 
   useEffect(() => {
@@ -38,8 +39,8 @@ const App = () => {
 
   return (
     <Box flexDirection="column">
-      {!selectedMatchId &&
-        (isFetching ? (
+      {!selectedMatchId
+        && (isFetching ? (
           <Text>fetching matches...</Text>
         ) : !matches?.length ? (
           <Text>
@@ -52,15 +53,22 @@ const App = () => {
       {selectedMatchId && (
         <Box flexDirection="column">
           <Text>
-            <Text>(radiant) {radiantTeam}</Text>
+            <Text>
+              (radiant)
+              {radiantTeam}
+            </Text>
             {gameState === GAME_STATE.IN_GAME ? (
               <TimerAndTeamNetworthDiff
                 selectedMatchId={selectedMatchId}
-              ></TimerAndTeamNetworthDiff>
+              />
             ) : (
               " vs "
             )}
-            <Text>{direTeam} (dire)</Text>
+            <Text>
+              {direTeam}
+              {" "}
+              (dire)
+            </Text>
           </Text>
         </Box>
       )}
@@ -68,15 +76,15 @@ const App = () => {
         <Text>{GAME_STATE.WAIT_IN_LOBBY}</Text>
       )}
       {gameState === GAME_STATE.BAN_PICK_PHASE && (
-        <LiveBanpickPhase selectedMatchId={selectedMatchId}></LiveBanpickPhase>
+        <LiveBanpickPhase selectedMatchId={selectedMatchId} />
       )}
       {gameState === GAME_STATE.IN_GAME && (
         <LivePlayerNetworth
           selectedMatchId={selectedMatchId}
-        ></LivePlayerNetworth>
+        />
       )}
     </Box>
   );
-};
+}
 
 render(<App />);
