@@ -1,6 +1,6 @@
 {
   "name": "iron-branch",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "main": "dist/bundle.cjs",
   "license": "MIT",
   "files": [
@@ -10,8 +10,7 @@
     "iron-branch": "dist/bundle.cjs"
   },
   "scripts": {
-    "dev": "esbuild --bundle --platform=node --target=node14 --format=cjs --outfile=dist/bundle.cjs --jsx=automatic App.jsx --watch && node dist/bundle.cjs",
-    "build": "esbuild --bundle --platform=node --target=node14 --format=cjs --outfile=dist/bundle.cjs --jsx=automatic --minify App.jsx"
+    "build": "node scripts/build.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.15.9",
