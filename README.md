@@ -6,6 +6,10 @@
 
 Watch dota 2 live games in terminal
 
+<div align="center">
+  <img src="https://github.com/ktseo41/iron-branch/blob/main/example-1_5x-optimized.gif" />
+</div>
+
 ### Getting Started
 
 ```bash
