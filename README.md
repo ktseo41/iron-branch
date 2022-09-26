@@ -10,8 +10,26 @@ Watch dota 2 live games in terminal
   <img src="https://github.com/ktseo41/iron-branch/blob/main/example-1_5x-optimized.gif" />
 </div>
 
+### Prerequisites
+
+#### Steam API Key
+
+1. Go to [Steam Community for Development](https://steamcommunity.com/dev/apikey)
+
+2. Fill `Domain Name` with `localhost` (or any other domain name)
+
+3. Agree to the terms of service
+
+4. Click `Register`
+
+5. Copy the Key
+
+> (You can find your API key at any time by going to [Steam Community for Development](https://steamcommunity.com/dev/apikey))
+
 ### Getting Started
 
 ```bash
-npx iron-branch
+STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 ```
+
+#### :tada: Enjoy watching dota 2 live games while you work!
