@@ -43,3 +43,10 @@ STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 - [ ] death, alive, respawn timer
 - [ ] visualization options 
 - [ ] etc.. (on [Issue](https://github.com/ktseo41/iron-branch/issues))
+
+### Contributing
+
+- Always Welcome :smile:
+- I would appreciate it if you could help me with React code.
+- Fork it, Pull Request it, I'll check it out. or just Pull Request it without fork.
+- Anything else about managing project, please let me know. Thank you I love you!
