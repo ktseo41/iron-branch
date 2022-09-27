@@ -17,31 +17,33 @@ function extractTeamsFromGames(games) {
       };
 
       if (gameState === GAME_STATE.IN_GAME) {
-        summary.parsedDuration =
-          String(Math.floor(game.scoreboard?.duration / 60)).padStart(2, "0") +
-          ":" +
-          String(Math.floor(game.scoreboard?.duration % 60)).padStart(2, "0");
+        summary.parsedDuration = `${String(Math.floor((game.scoreboard?.duration || 0) / 60)).padStart(2, "0")
+        }:${
+          String(Math.floor((game.scoreboard?.duration || 0) % 60)).padStart(2, "0")}`;
       }
 
       return summary;
     });
 
   return gameSummaries.map(
-    ({ id, radiantTeam, direTeam, gameState, parsedDuration }) => ({
+    ({
+      id, radiantTeam, direTeam, gameState, parsedDuration,
+    }) => ({
       id,
       label: `${radiantTeam} vs ${direTeam} (${gameState}${
-        parsedDuration ? " " + parsedDuration : ""
+        parsedDuration ? ` ${parsedDuration}` : ""
       })`,
       value: {
         radiantTeam,
         direTeam,
         id,
       },
-    })
+    }),
   );
 }
 
-module.exports = ({ matches = [], onSelected }) => {
+// eslint-disable-next-line react/prop-types
+export default function MatchSelector({ matches = [], onSelected }) {
   const onSubmit = (matchId) => {
     if (onSelected) {
       onSelected(matchId);
@@ -52,8 +54,8 @@ module.exports = ({ matches = [], onSelected }) => {
     <Prompts
       items={extractTeamsFromGames(matches)}
       onSubmit={onSubmit}
-    ></Prompts>
+    />
   ) : (
     <Text>no matches found. try refresh</Text>
   );
-};
+}

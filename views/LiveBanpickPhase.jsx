@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import {Box, Text , Newline} from "ink";
+import { Box, Text, Newline } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import useHeroes from "../hooks/useHeroes";
 
-module.exports = ({ selectedMatchId } = {}) => {
+export default function LiveBanpickPhase({ selectedMatchId } = {}) {
   const { matches } = useLiveMatches({
     useInterval: true,
     from: "live banpick phase",
@@ -18,20 +18,20 @@ module.exports = ({ selectedMatchId } = {}) => {
     if (!selectedMatchId || !matches.length) return;
 
     const selectedMatch = matches.find(
-      (match) => match.match_id === selectedMatchId
+      (match) => match.match_id === selectedMatchId,
     );
 
     const { scoreboard } = selectedMatch || {};
 
     const { radiant, dire } = scoreboard || {};
 
-    const { picks: rPicks, bans: rBans } = radiant || {};
-    const { picks: dPicks, bans: dBans } = dire || {};
+    const { picks: _rPicks, bans: _rBans } = radiant || {};
+    const { picks: _dPicks, bans: _dBans } = dire || {};
 
-    setRPicks(rPicks);
-    setRBans(rBans);
-    setDPicks(dPicks);
-    setDBans(dBans);
+    setRPicks(_rPicks);
+    setRBans(_rBans);
+    setDPicks(_dPicks);
+    setDBans(_dBans);
   }, [matches]);
 
   return (
@@ -39,7 +39,7 @@ module.exports = ({ selectedMatchId } = {}) => {
       <Text>--- ban/pick ---</Text>
       <Box>
         <Box width="9%" paddingRight={1}>
-          <Text></Text>
+          <Text />
         </Box>
         <Box width="45%">
           <Text>radiant</Text>
@@ -53,27 +53,27 @@ module.exports = ({ selectedMatchId } = {}) => {
           <Text>pick</Text>
         </Box>
         <Box flexDirection="column" width="45%">
-          {rPicks &&
-            rPicks.map(({ hero_id }, idx) => (
+          {rPicks
+            && rPicks.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {(heroes &&
-                  heroes
+                {(heroes
+                  && heroes
                     .find((hero) => hero.id === hero_id)
-                    ?.name?.replace("npc_dota_hero_", "")) ||
-                  "unknown hero"}
+                    ?.name?.replace("npc_dota_hero_", ""))
+                  || "unknown hero"}
                 {idx === rPicks.length - 1 && <Newline />}
               </Text>
             ))}
         </Box>
         <Box flexDirection="column" width="45%">
-          {dPicks &&
-            dPicks.map(({ hero_id }, idx) => (
+          {dPicks
+            && dPicks.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {(heroes &&
-                  heroes
+                {(heroes
+                  && heroes
                     .find((hero) => hero.id === hero_id)
-                    ?.name?.replace("npc_dota_hero_", "")) ||
-                  "unknown hero"}
+                    ?.name?.replace("npc_dota_hero_", ""))
+                  || "unknown hero"}
                 {idx === dPicks.length - 1 && <Newline />}
               </Text>
             ))}
@@ -84,27 +84,27 @@ module.exports = ({ selectedMatchId } = {}) => {
           <Text>ban</Text>
         </Box>
         <Box flexDirection="column" width="45%">
-          {rBans &&
-            rBans.map(({ hero_id }, idx) => (
+          {rBans
+            && rBans.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {(heroes &&
-                  heroes
+                {(heroes
+                  && heroes
                     .find((hero) => hero.id === hero_id)
-                    ?.name?.replace("npc_dota_hero_", "")) ||
-                  "unknown hero"}
+                    ?.name?.replace("npc_dota_hero_", ""))
+                  || "unknown hero"}
                 {idx === rBans.length - 1 && <Newline />}
               </Text>
             ))}
         </Box>
         <Box flexDirection="column" width="45%">
-          {dBans &&
-            dBans.map(({ hero_id }, idx) => (
+          {dBans
+            && dBans.map(({ hero_id }, idx) => (
               <Text key={hero_id}>
-                {(heroes &&
-                  heroes
+                {(heroes
+                  && heroes
                     .find((hero) => hero.id === hero_id)
-                    ?.name?.replace("npc_dota_hero_", "")) ||
-                  "unknown hero"}
+                    ?.name?.replace("npc_dota_hero_", ""))
+                  || "unknown hero"}
                 {idx === dBans.length - 1 && <Newline />}
               </Text>
             ))}
@@ -112,4 +112,4 @@ module.exports = ({ selectedMatchId } = {}) => {
       </Box>
     </Box>
   );
-};
+}

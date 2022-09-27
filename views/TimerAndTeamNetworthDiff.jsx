@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
-import Timer from './Timer'
+import Timer from "./Timer";
 
-module.exports = ({ selectedMatchId } = {}) => {
+// eslint-disable-next-line react/prop-types
+export default function TimerAndTeamNetworthDiff({ selectedMatchId } = {}) {
   const { matches } = useLiveMatches({
     useInterval: true,
     from: "timer and team networth diff",
@@ -15,7 +16,7 @@ module.exports = ({ selectedMatchId } = {}) => {
     if (!matches.length) return;
 
     const selectedMatch = matches.find(
-      (match) => match.match_id === selectedMatchId
+      (match) => match.match_id === selectedMatchId,
     );
 
     const { scoreboard } = selectedMatch || {};
@@ -23,19 +24,22 @@ module.exports = ({ selectedMatchId } = {}) => {
     const { players: rPlayers } = radiant || {};
     const { players: dPlayers } = dire || {};
 
-    if (!rPlayers || !dPlayers) return console.log("No players found");
+    if (!rPlayers || !dPlayers) {
+      console.log("No players found");
+      return;
+    }
 
-    const radiantNetworthSum = rPlayers.reduce(
+    const _radiantNetworthSum = rPlayers.reduce(
       (acc, { net_worth }) => acc + net_worth,
-      0
+      0,
     );
-    const direNetworthSum = dPlayers.reduce(
+    const _direNetworthSum = dPlayers.reduce(
       (acc, { net_worth }) => acc + net_worth,
-      0
+      0,
     );
 
-    setRadiantNetworthSum(radiantNetworthSum);
-    setDireNetworthSum(direNetworthSum);
+    setRadiantNetworthSum(_radiantNetworthSum);
+    setDireNetworthSum(_direNetworthSum);
   }, [matches]);
 
   return (
@@ -45,27 +49,28 @@ module.exports = ({ selectedMatchId } = {}) => {
         <Text>
           ▲
           {(
-            ((radiantNetworthSum - direNetworthSum) /
-              (radiantNetworthSum + direNetworthSum)) *
-            100
+            ((radiantNetworthSum - direNetworthSum)
+              / (radiantNetworthSum + direNetworthSum))
+            * 100
           ).toFixed(2)}
           %
         </Text>
       )}
       {" ["}
-      <Timer selectedMatchId={selectedMatchId}></Timer>
+      <Timer selectedMatchId={selectedMatchId} />
       {"] "}
       {direNetworthSum > radiantNetworthSum && (
         <Text>
           ▲
           {(
-            ((direNetworthSum - radiantNetworthSum) /
-              (direNetworthSum + radiantNetworthSum)) *
-            100
+            ((direNetworthSum - radiantNetworthSum)
+              / (direNetworthSum + radiantNetworthSum))
+            * 100
           ).toFixed(2)}
-          %{" "}
+          %
+          {" "}
         </Text>
       )}
     </Text>
   );
-};
+}
