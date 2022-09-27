@@ -1,6 +1,8 @@
 #! /usr/bin/env node
 import { useCallback, useEffect, useState } from "react";
-import { render, Box, Text } from "ink";
+import {
+  render, Box, Text, useInput, Newline,
+} from "ink";
 import useMatches from "./hooks/useMatches";
 import useGameState from "./hooks/useGameState";
 import { GAME_STATE } from "./constants";
@@ -9,11 +11,13 @@ import LiveBanpickPhase from "./views/LiveBanpickPhase";
 import MatchSelector from "./views/MatchSelector";
 import LivePlayerNetworth from "./views/LivePlayerNetworth";
 
+const { clear } = render(<App />);
+
 function App() {
   const { matches, isFetching, fetchLiveMatches } = useMatches();
   const [refetchInterval, setRefetchInterval] = useState(5);
   const [selectedMatchId, setSelectedMatchId] = useState(null);
-  const gameState = useGameState({ selectedMatchId });
+  const { gameState, setGameState } = useGameState({ selectedMatchId });
   const [radiantTeam, setRadiantTeam] = useState(null);
   const [direTeam, setDireTeam] = useState(null);
   const onSelected = useCallback(({ id, _radiantTeam, _direTeam }) => {
@@ -21,6 +25,16 @@ function App() {
     setRadiantTeam(_radiantTeam);
     setDireTeam(_direTeam);
   }, [setSelectedMatchId, setRadiantTeam, setDireTeam]);
+
+  useInput((input) => {
+    if (input === "m") {
+      fetchLiveMatches().then(() => {
+        clear();
+        setSelectedMatchId(null);
+        setGameState(null);
+      });
+    }
+  });
 
   useEffect(() => {
     if (!matches?.length && refetchInterval) {
@@ -82,8 +96,12 @@ function App() {
           selectedMatchId={selectedMatchId}
         />
       )}
+      {selectedMatchId && (
+      <Text>
+        <Newline />
+        { isFetching ? "fetching matches..." : "(m) return to Match Selector" }
+      </Text>
+      )}
     </Box>
   );
 }
-
-render(<App />);

@@ -17,5 +17,5 @@ export default ({ selectedMatchId } = {}) => {
     setGameState(getGameStateFromMatch(selectedMatch));
   }, [selectedMatchId, matches]);
 
-  return gameState;
+  return { gameState, setGameState };
 };
