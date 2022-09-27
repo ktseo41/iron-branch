@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { render, Box, Text } from "ink";
 import useMatches from "./hooks/useMatches";
 import useGameState from "./hooks/useGameState";
@@ -16,12 +16,11 @@ function App() {
   const gameState = useGameState({ selectedMatchId });
   const [radiantTeam, setRadiantTeam] = useState(null);
   const [direTeam, setDireTeam] = useState(null);
-
-  function onSelected({ id, _radiantTeam, _direTeam }) {
+  const onSelected = useCallback(({ id, _radiantTeam, _direTeam }) => {
     setSelectedMatchId(id);
     setRadiantTeam(_radiantTeam);
     setDireTeam(_direTeam);
-  }
+  }, [setSelectedMatchId, setRadiantTeam, setDireTeam]);
 
   useEffect(() => {
     if (!matches?.length && refetchInterval) {
