@@ -54,3 +54,8 @@ STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 - I would appreciate it if you could help me with React code.
 - Fork it, Pull Request it, I'll check it out. or just Pull Request it without fork.
 - Anything else about managing project, please let me know. Thank you I love you!
+
+### About iron-branch
+
+- A non-visual app as much as possible is the primary goal. After that, it will be possible to enhance the visual effect by selecting according to the user's choice. For example, player earnings ranking charts, tower and barracks status, etc.
+- The name `iron-branch` is inspired by the [Iron Branch](https://dota2.gamepedia.com/Iron_Branch) item in dota 2 for sure. and no meaning for that 😂
