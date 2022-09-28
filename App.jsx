@@ -20,7 +20,7 @@ function App() {
   const { gameState, setGameState } = useGameState({ selectedMatchId });
   const [radiantTeam, setRadiantTeam] = useState(null);
   const [direTeam, setDireTeam] = useState(null);
-  const onSelected = useCallback(({ id, _radiantTeam, _direTeam }) => {
+  const onSelected = useCallback(({ id, radiantTeam: _radiantTeam, direTeam: _direTeam }) => {
     setSelectedMatchId(id);
     setRadiantTeam(_radiantTeam);
     setDireTeam(_direTeam);
