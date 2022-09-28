@@ -39,7 +39,7 @@ function App() {
   });
 
   useEffect(() => {
-    if (!matches?.length && refetchInterval > 0) {
+    if (!matches?.length && refetchInterval >= 0) {
       setTimeout(() => {
         if (refetchInterval >= 0) {
           setRefetchInterval(refetchInterval - 1);
