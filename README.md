@@ -12,6 +12,10 @@ Watch dota 2 live games in terminal
 
 ### Prerequisites
 
+#### Node.js (at least v14)
+
+-  [how to install nodejs](https://nodejs.dev/en/learn/how-to-install-nodejs/)
+
 #### Steam API Key
 
 1. Go to [Steam Community for Development](https://steamcommunity.com/dev/apikey)
