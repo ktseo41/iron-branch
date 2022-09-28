@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getLiveLeagueGames as getLiveLeagueMatches } from "../lib/apis";
 import { randomId } from "../lib/utils";
 import { TICK_RATE } from "../constants";
+import useCleanUp from "./useCleanUp";
 
 /**
  * @typedef {Object} Cache
@@ -32,9 +33,12 @@ const intervalIds = {};
 export default ({ useInterval, from = randomId() } = {}) => {
   const [isFetching, setIsFetching] = useState(false);
   const [matches, setMatches] = useState([]);
+  const mountedRef = useCleanUp();
 
   useEffect(() => {
     async function fetchLiveMatchesWithCache() {
+      if (!mountedRef.current) return;
+
       const prevCache = getCache();
 
       if (prevCache) {
@@ -59,6 +63,10 @@ export default ({ useInterval, from = randomId() } = {}) => {
 
     if (useInterval && !intervalIds[from]) {
       intervalIds[from] = setInterval(() => {
+        if (!mountedRef.current) {
+          clearInterval(intervalIds[from]);
+          return;
+        }
         fetchLiveMatchesWithCache();
       }, TICK_RATE);
       return () => clearInterval(intervalIds[from]);

@@ -10,6 +10,7 @@ import TimerAndTeamNetworthDiff from "./views/TimerAndTeamNetworthDiff";
 import LiveBanpickPhase from "./views/LiveBanpickPhase";
 import MatchSelector from "./views/MatchSelector";
 import LivePlayerNetworth from "./views/LivePlayerNetworth";
+import useCleanUp from "./hooks/useCleanUp";
 
 const { clear } = render(<App />);
 
@@ -25,6 +26,7 @@ function App() {
     setRadiantTeam(_radiantTeam);
     setDireTeam(_direTeam);
   }, [setSelectedMatchId, setRadiantTeam, setDireTeam]);
+  const mountedRef = useCleanUp();
 
   useInput((input) => {
     if (input === "m") {
@@ -37,16 +39,22 @@ function App() {
   });
 
   useEffect(() => {
-    if (!matches?.length && refetchInterval) {
+    if (!matches?.length && refetchInterval > 0) {
       setTimeout(() => {
-        if (refetchInterval > 0) {
+        if (refetchInterval >= 0) {
           setRefetchInterval(refetchInterval - 1);
           return;
         }
 
         fetchLiveMatches();
-        setRefetchInterval(5);
+        if (mountedRef.current) {
+          setRefetchInterval(5);
+        }
       }, 1000);
+    } else if (!matches?.length && refetchInterval < 0) {
+      if (mountedRef.current) {
+        setRefetchInterval(5);
+      }
     }
   }, [matches, refetchInterval]);
 
