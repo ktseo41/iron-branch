@@ -7,7 +7,7 @@
 Watch dota 2 live games in terminal
 
 <div align="center">
-  <img src="https://github.com/ktseo41/iron-branch/blob/main/example-1_5x-optimized.gif" />
+  <img src="https://github.com/ktseo41/iron-branch/blob/main/record_1_5x_optimized.gif" />
 </div>
 
 ### Prerequisites
