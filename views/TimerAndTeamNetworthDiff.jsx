@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import Timer from "./Timer";
+import useCleanUp from "../hooks/useCleanUp";
 
 // eslint-disable-next-line react/prop-types
 export default function TimerAndTeamNetworthDiff({ selectedMatchId } = {}) {
@@ -11,7 +12,7 @@ export default function TimerAndTeamNetworthDiff({ selectedMatchId } = {}) {
   });
   const [direNetworthSum, setDireNetworthSum] = useState(undefined);
   const [radiantNetworthSum, setRadiantNetworthSum] = useState(undefined);
-  const mountedRef = useRef(true);
+  const mountedRef = useCleanUp();
 
   useEffect(() => {
     if (!matches.length) return;
@@ -43,10 +44,6 @@ export default function TimerAndTeamNetworthDiff({ selectedMatchId } = {}) {
       setRadiantNetworthSum(_radiantNetworthSum);
       setDireNetworthSum(_direNetworthSum);
     }
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [matches]);
 
   return (

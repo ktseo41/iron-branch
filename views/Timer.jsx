@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
+import useCleanUp from "../hooks/useCleanUp";
 
 // eslint-disable-next-line react/prop-types
 export default function Timer({ selectedMatchId } = {}) {
@@ -9,7 +10,7 @@ export default function Timer({ selectedMatchId } = {}) {
     from: "live banpick phase",
   });
   const [time, setTime] = useState(undefined);
-  const mountedRef = useRef(true);
+  const mountedRef = useCleanUp();
 
   useEffect(() => {
     if (!selectedMatchId || !matches.length) return;
@@ -26,10 +27,6 @@ export default function Timer({ selectedMatchId } = {}) {
     if (mountedRef.current) {
       setTime(`${minutes}:${seconds}`);
     }
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [selectedMatchId, matches]);
 
   return <Text>{time}</Text>;

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Text, Newline } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import useHeroes from "../hooks/useHeroes";
+import useCleanUp from "../hooks/useCleanUp";
 
 // eslint-disable-next-line react/prop-types
 export default function LiveBanpickPhase({ selectedMatchId } = {}) {
@@ -14,7 +15,7 @@ export default function LiveBanpickPhase({ selectedMatchId } = {}) {
   const [rBans, setRBans] = useState([]);
   const [dPicks, setDPicks] = useState([]);
   const [dBans, setDBans] = useState([]);
-  const mountedRef = useRef(true);
+  const mountedRef = useCleanUp();
 
   useEffect(() => {
     if (!selectedMatchId || !matches.length) return;
@@ -36,10 +37,6 @@ export default function LiveBanpickPhase({ selectedMatchId } = {}) {
       setDPicks(_dPicks);
       setDBans(_dBans);
     }
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [matches]);
 
   return (
