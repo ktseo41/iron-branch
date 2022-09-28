@@ -1,6 +1,6 @@
 {
   "name": "iron-branch",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "main": "dist/bundle.cjs",
   "license": "MIT",
   "files": [

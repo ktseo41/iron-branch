@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import Timer from "./Timer";
@@ -11,6 +11,7 @@ export default function TimerAndTeamNetworthDiff({ selectedMatchId } = {}) {
   });
   const [direNetworthSum, setDireNetworthSum] = useState(undefined);
   const [radiantNetworthSum, setRadiantNetworthSum] = useState(undefined);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     if (!matches.length) return;
@@ -38,8 +39,14 @@ export default function TimerAndTeamNetworthDiff({ selectedMatchId } = {}) {
       0,
     );
 
-    setRadiantNetworthSum(_radiantNetworthSum);
-    setDireNetworthSum(_direNetworthSum);
+    if (mountedRef.current) {
+      setRadiantNetworthSum(_radiantNetworthSum);
+      setDireNetworthSum(_direNetworthSum);
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, [matches]);
 
   return (

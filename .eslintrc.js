@@ -15,5 +15,6 @@ module.exports = {
   rules: {
     "import/no-extraneous-dependencies": ["off"],
     quotes: ["error", "double"],
+    "consistent-return": ["off"],
   },
 };

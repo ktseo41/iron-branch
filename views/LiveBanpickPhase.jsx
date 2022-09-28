@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Text, Newline } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import useHeroes from "../hooks/useHeroes";
 
+// eslint-disable-next-line react/prop-types
 export default function LiveBanpickPhase({ selectedMatchId } = {}) {
   const { matches } = useLiveMatches({
     useInterval: true,
@@ -13,6 +14,7 @@ export default function LiveBanpickPhase({ selectedMatchId } = {}) {
   const [rBans, setRBans] = useState([]);
   const [dPicks, setDPicks] = useState([]);
   const [dBans, setDBans] = useState([]);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     if (!selectedMatchId || !matches.length) return;
@@ -28,10 +30,16 @@ export default function LiveBanpickPhase({ selectedMatchId } = {}) {
     const { picks: _rPicks, bans: _rBans } = radiant || {};
     const { picks: _dPicks, bans: _dBans } = dire || {};
 
-    setRPicks(_rPicks);
-    setRBans(_rBans);
-    setDPicks(_dPicks);
-    setDBans(_dBans);
+    if (mountedRef.current) {
+      setRPicks(_rPicks);
+      setRBans(_rBans);
+      setDPicks(_dPicks);
+      setDBans(_dBans);
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, [matches]);
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 
@@ -9,6 +9,7 @@ export default function Timer({ selectedMatchId } = {}) {
     from: "live banpick phase",
   });
   const [time, setTime] = useState(undefined);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     if (!selectedMatchId || !matches.length) return;
@@ -22,7 +23,13 @@ export default function Timer({ selectedMatchId } = {}) {
     const minutes = String(Math.floor(duration / 60)).padStart(2, "0");
     const seconds = String(parseInt(duration % 60, 10)).padStart(2, "0");
 
-    setTime(`${minutes}:${seconds}`);
+    if (mountedRef.current) {
+      setTime(`${minutes}:${seconds}`);
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, [selectedMatchId, matches]);
 
   return <Text>{time}</Text>;

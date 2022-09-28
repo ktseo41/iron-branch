@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Box, Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import useHeroes from "../hooks/useHeroes";
@@ -11,6 +11,7 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
   });
   const heroes = useHeroes();
   const [sortedPlayerNetworths, setSortedPlayerNetworths] = useState([]);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     if (!selectedMatchId || !matches.length || !heroes?.length) return;
@@ -58,7 +59,13 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
         side,
       }));
 
-    setSortedPlayerNetworths(sortedByNetWorth);
+    if (mountedRef.current) {
+      setSortedPlayerNetworths(sortedByNetWorth);
+    }
+
+    return () => {
+      mountedRef.current = false;
+    };
   }, [selectedMatchId, matches, heroes]);
 
   return (
