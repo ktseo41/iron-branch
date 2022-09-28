@@ -68,6 +68,7 @@ function App() {
           <Text>
             <Text>
               (radiant)
+              {" "}
               {radiantTeam}
             </Text>
             {gameState === GAME_STATE.IN_GAME ? (
