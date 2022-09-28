@@ -86,6 +86,7 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
             {hero_name}
             {" "}
             ||
+            {" "}
             {player_name}
           </Text>
         ),
