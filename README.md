@@ -52,8 +52,7 @@ STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 
 - Always Welcome :smile:
 - I would appreciate it if you could help me with React code.
-- Fork it, Pull Request it, I'll check it out. or just Pull Request it without fork.
-- Anything else about managing project, please let me know. Thank you I love you!
+- Anything else about managing project, please let me know. Thank you!
 
 ### About iron-branch
 
