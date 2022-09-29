@@ -55,7 +55,7 @@ STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 - [ ] SS, Buyback
 - [ ] Team networth difference switching between percentage and absolute value
 - [ ] barrack, tower status
-- [ ] death, alive, respawn timer
+- [x] death, alive, respawn timer
 - [ ] visualization options 
 - [ ] etc.. (on [Issue](https://github.com/ktseo41/iron-branch/issues))
 
