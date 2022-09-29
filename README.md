@@ -1,8 +1,14 @@
 <h4 align="center">
-  <img height="50" src="https://github.com/ktseo41/iron-branch/blob/main/Iron_branch_plant_tree.png" />
+  <img height="80" src="https://github.com/ktseo41/iron-branch/blob/main/Iron_branch_plant_tree.png" />
 </h4>
+<p align="center">
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/iron-branch">
+    <img alt="" src="https://badgen.net/npm/v/iron-branch">
+  </a>
+</p>
 
 <h1>Iron Branch</h1>
+
 
 Watch dota 2 live games in terminal
 
