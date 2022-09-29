@@ -11,6 +11,8 @@ export default function Scoreboard({ selectedMatchId } = {}) {
   const [direTeamName, setDireTeamName] = useState();
   const [radiantNetworthSum, setRadiantNetworthSum] = useState();
   const [direNetworthSum, setDireNetworthSum] = useState();
+  const [radiantKillScores, setRadiantKillScores] = useState();
+  const [direKillScores, setDireKillScores] = useState();
   const [time, setTime] = useState();
   const { gameState } = useGameState({ selectedMatchId });
 
@@ -35,7 +37,6 @@ export default function Scoreboard({ selectedMatchId } = {}) {
     const { players: dPlayers } = dire || {};
 
     if (!rPlayers || !dPlayers) {
-      console.log("No players found");
       return;
     }
 
@@ -48,12 +49,24 @@ export default function Scoreboard({ selectedMatchId } = {}) {
       0,
     );
 
+    const rKillScores = rPlayers.reduce(
+      (acc, { kills }) => acc + kills,
+      0,
+    );
+
+    const dKillScores = dPlayers.reduce(
+      (acc, { kills }) => acc + kills,
+      0,
+    );
+
     const minutes = String(Math.floor(duration / 60)).padStart(2, "0");
     const seconds = String(parseInt(duration % 60, 10)).padStart(2, "0");
 
     setTime(`${minutes}:${seconds}`);
-    setRadiantTeamName(rTeamName);
-    setDireTeamName(dTeamName);
+    setRadiantTeamName(rTeamName.trim());
+    setDireTeamName(dTeamName.trim());
+    setRadiantKillScores(rKillScores);
+    setDireKillScores(dKillScores);
     setRadiantNetworthSum(rNetworthSum);
     setDireNetworthSum(dNetworthSum);
   }, [selectedMatchId, matches]);
@@ -64,7 +77,9 @@ export default function Scoreboard({ selectedMatchId } = {}) {
       {" "}
       {radiantTeamName}
       {" "}
-      {radiantNetworthSum > direNetworthSum && (
+      {radiantKillScores}
+      {" "}
+      {radiantNetworthSum > direNetworthSum ? (
         <Text>
           ▲
           {(
@@ -74,11 +89,13 @@ export default function Scoreboard({ selectedMatchId } = {}) {
           ).toFixed(2)}
           %
         </Text>
-      )}
+      ) : <Text>{" ".repeat(5)}</Text>}
       {" "}
+      |
       {gameState === GAME_STATE.IN_GAME && time}
+      |
       {" "}
-      {direNetworthSum > radiantNetworthSum && (
+      {direNetworthSum > radiantNetworthSum ? (
         <Text>
           ▲
           {(
@@ -87,9 +104,10 @@ export default function Scoreboard({ selectedMatchId } = {}) {
             * 100
           ).toFixed(2)}
           %
-          {" "}
         </Text>
-      )}
+      ) : <Text>{" ".repeat(5)}</Text>}
+      {" "}
+      {direKillScores}
       {" "}
       {direTeamName}
       {" "}
