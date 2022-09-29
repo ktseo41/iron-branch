@@ -51,6 +51,9 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
         net_worth: netWorth,
         side,
         respawn_timer: respawnTimer,
+        kills,
+        death,
+        assists,
       }) => ({
         accountId,
         playerName:
@@ -63,6 +66,9 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
         netWorth,
         side,
         respawnTimer,
+        kills,
+        death,
+        assists,
       }));
 
     if (mountedRef.current) {
@@ -74,7 +80,7 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
     <Box flexDirection="column">
       {sortedPlayerNetworths.map(
         ({
-          accountId, playerName, heroName, netWorth, side, respawnTimer,
+          accountId, playerName, heroName, netWorth, side, respawnTimer, kills, death, assists,
         }) => (
           <Text key={accountId + heroName} dimColor={respawnTimer}>
             [
@@ -82,6 +88,8 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
             ]
             {" "}
             {netWorth}
+            {" "}
+            {`(${kills}/${death}/${assists})`}
             {" "}
             ||
             {" "}
