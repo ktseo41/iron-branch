@@ -38,6 +38,11 @@ STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 
 #### :tada: Enjoy watching dota 2 live games while you work!
 
+
+*Steam api doesn't seem to provide fast updates. The game will be updated every 10-20 seconds.
+
+---
+
 ### Currently Working On
 
 - [ ] K/D/A tab
