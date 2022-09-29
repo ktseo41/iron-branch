@@ -42,7 +42,7 @@ Watch dota 2 live games in terminal
 STEAM_API_KEY=YOUR_STEAM_API_KEY npx iron-branch
 ```
 
-#### :tada: Enjoy watching dota 2 live games while you work!
+#### :tada: Enjoy watching dota 2 live games in terminal!
 
 
 *Steam API doesn't seem to provide fast updates. The game will be updated every 5-30 seconds.
