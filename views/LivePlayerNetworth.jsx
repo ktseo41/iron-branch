@@ -46,18 +46,23 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
     const sortedByNetWorth = allPlayers
       .sort((a, b) => b.net_worth - a.net_worth)
       .map(({
-        account_id, hero_id, net_worth, side,
-      }) => ({
-        account_id,
-        player_name:
-          players?.find((player) => player.account_id === account_id)?.name
-          || "unknown player",
-        hero_name:
-          heroes
-            .find((hero) => hero.id === hero_id)
-            ?.name?.replace("npc_dota_hero_", "") || "unknown hero",
-        net_worth,
+        account_id: accountId,
+        hero_id: heroId,
+        net_worth: netWorth,
         side,
+        respawn_timer: respawnTimer,
+      }) => ({
+        accountId,
+        playerName:
+          players?.find((player) => player.account_id === accountId)?.name
+          || "unknown player",
+        heroName:
+          heroes
+            .find((hero) => hero.id === heroId)
+            ?.name?.replace("npc_dota_hero_", "") || "unknown hero",
+        netWorth,
+        side,
+        respawnTimer,
       }));
 
     if (mountedRef.current) {
@@ -69,22 +74,32 @@ export default function LivePlayerNetworth({ selectedMatchId } = {}) {
     <Box flexDirection="column">
       {sortedPlayerNetworths.map(
         ({
-          account_id, player_name, hero_name, net_worth, side,
+          accountId, playerName, heroName, netWorth, side, respawnTimer,
         }) => (
-          <Text key={account_id + hero_name}>
+          <Text key={accountId + heroName} dimColor={respawnTimer}>
             [
             <Text>{side.slice(0, 1).toUpperCase()}</Text>
             ]
             {" "}
-            {net_worth}
+            {netWorth}
             {" "}
             ||
             {" "}
-            {hero_name}
+            {heroName}
             {" "}
             ||
             {" "}
-            {player_name}
+            {playerName}
+            {
+              respawnTimer && (
+                <>
+                  {" "}
+                  || Respawn in
+                  {" "}
+                  {respawnTimer}
+                </>
+              )
+            }
           </Text>
         ),
       )}
