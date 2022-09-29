@@ -3,6 +3,7 @@ import { Text } from "ink";
 import useLiveMatches from "../hooks/useLiveMatches";
 import useGameState from "../hooks/useGameState";
 import { GAME_STATE } from "../constants";
+import useCleanUp from "../hooks/useCleanUp";
 
 // eslint-disable-next-line react/prop-types
 export default function Scoreboard({ selectedMatchId } = {}) {
@@ -15,6 +16,7 @@ export default function Scoreboard({ selectedMatchId } = {}) {
   const [direKillScores, setDireKillScores] = useState();
   const [time, setTime] = useState();
   const { gameState } = useGameState({ selectedMatchId });
+  const mountedRef = useCleanUp();
 
   useEffect(() => {
     if (!matches.length) return;
@@ -62,13 +64,15 @@ export default function Scoreboard({ selectedMatchId } = {}) {
     const minutes = String(Math.floor(duration / 60)).padStart(2, "0");
     const seconds = String(parseInt(duration % 60, 10)).padStart(2, "0");
 
-    setTime(`${minutes}:${seconds}`);
-    setRadiantTeamName(rTeamName.trim());
-    setDireTeamName(dTeamName.trim());
-    setRadiantKillScores(rKillScores);
-    setDireKillScores(dKillScores);
-    setRadiantNetworthSum(rNetworthSum);
-    setDireNetworthSum(dNetworthSum);
+    if (mountedRef.current) {
+      setTime(`${minutes}:${seconds}`);
+      setRadiantTeamName(rTeamName.trim());
+      setDireTeamName(dTeamName.trim());
+      setRadiantKillScores(rKillScores);
+      setDireKillScores(dKillScores);
+      setRadiantNetworthSum(rNetworthSum);
+      setDireNetworthSum(dNetworthSum);
+    }
   }, [selectedMatchId, matches]);
 
   return (
