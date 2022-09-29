@@ -6,11 +6,11 @@ import {
 import useMatches from "./hooks/useMatches";
 import useGameState from "./hooks/useGameState";
 import { GAME_STATE } from "./constants";
-import TimerAndTeamNetworthDiff from "./views/TimerAndTeamNetworthDiff";
 import LiveBanpickPhase from "./views/LiveBanpickPhase";
 import MatchSelector from "./views/MatchSelector";
 import LivePlayerNetworth from "./views/LivePlayerNetworth";
 import useCleanUp from "./hooks/useCleanUp";
+import Scoreboard from "./views/Scoreboard";
 
 const { clear } = render(<App />);
 
@@ -19,13 +19,9 @@ function App() {
   const [refetchInterval, setRefetchInterval] = useState(5);
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const { gameState, setGameState } = useGameState({ selectedMatchId });
-  const [radiantTeam, setRadiantTeam] = useState(null);
-  const [direTeam, setDireTeam] = useState(null);
-  const onSelected = useCallback(({ id, radiantTeam: _radiantTeam, direTeam: _direTeam }) => {
+  const onSelected = useCallback(({ id }) => {
     setSelectedMatchId(id);
-    setRadiantTeam(_radiantTeam);
-    setDireTeam(_direTeam);
-  }, [setSelectedMatchId, setRadiantTeam, setDireTeam]);
+  }, [setSelectedMatchId]);
   const mountedRef = useCleanUp();
 
   useInput((input) => {
@@ -72,27 +68,7 @@ function App() {
           <MatchSelector matches={matches} onSelected={onSelected} />
         ))}
       {selectedMatchId && (
-        <Box flexDirection="column">
-          <Text>
-            <Text>
-              (radiant)
-              {" "}
-              {radiantTeam}
-            </Text>
-            {gameState === GAME_STATE.IN_GAME ? (
-              <TimerAndTeamNetworthDiff
-                selectedMatchId={selectedMatchId}
-              />
-            ) : (
-              " vs "
-            )}
-            <Text>
-              {direTeam}
-              {" "}
-              (dire)
-            </Text>
-          </Text>
-        </Box>
+        <Scoreboard selectedMatchId={selectedMatchId} />
       )}
       {gameState === GAME_STATE.WAIT_IN_LOBBY && (
         <Text>{GAME_STATE.WAIT_IN_LOBBY}</Text>
