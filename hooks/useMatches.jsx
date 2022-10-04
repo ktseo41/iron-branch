@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
-import { getLiveLeagueGames as getLiveLeagueMatches } from "../lib/apis";
+import fs from "fs";
+import useQuery from "./useQuery";
+import { LIVE_MATCHES } from "../graphql/queries";
 
-export default () => {
-  const [isFetching, setIsFetching] = useState(true);
-  const [matches, setMatches] = useState([]);
+export default function useMatches() {
+  const { loading, error, data } = useQuery(LIVE_MATCHES);
 
-  // eslint-disable-next-line consistent-return
-  async function fetchLiveMatches() {
-    setIsFetching(true);
-    const { games: _matches } = (await getLiveLeagueMatches()) || {};
+  fs.writeFileSync("matches.json", JSON.stringify(data, null, 2));
 
-    if (!_matches) {
-      setIsFetching(false);
-      return console.error("No matches found");
-    }
-
-    setMatches(_matches);
-    setIsFetching(false);
-  }
-
-  useEffect(() => {
-    fetchLiveMatches();
-  }, []);
-
-  return { matches, isFetching, fetchLiveMatches };
-};
+  return {
+    loading,
+    error,
+    data: data?.live?.matches,
+  };
+}

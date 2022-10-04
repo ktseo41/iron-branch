@@ -1,25 +1,31 @@
-import { Text } from "ink";
+import { Text, Box } from "ink";
+import { useCallback, useContext } from "react";
 import Prompts from "../components/prompts";
-import { getGameStateFromMatch } from "../lib/match";
 import { GAME_STATE } from "../constants";
+import useMatches from "../hooks/useMatches";
+import AppContext from "../context/AppContext";
 
-function extractTeamsFromGames(games) {
+function extractSummaries(games) {
   const gameSummaries = games
-    .filter(({ radiant_team, dire_team }) => radiant_team && dire_team)
-    .map((game) => {
-      const gameState = getGameStateFromMatch(game);
-
+    .filter(({ gameState }) => gameState !== GAME_STATE.POST_GAME)
+    .map(({
+      matchId, radiantTeam, direTeam, gameState, gameTime,
+    }) => {
       const summary = {
-        id: game.match_id,
-        radiantTeam: game.radiant_team?.team_name,
-        direTeam: game.dire_team?.team_name,
+        id: matchId,
+        radiantTeam: radiantTeam.name,
+        direTeam: direTeam.name,
         gameState,
       };
 
-      if (gameState === GAME_STATE.IN_GAME) {
-        summary.parsedDuration = `${String(Math.floor((game.scoreboard?.duration || 0) / 60)).padStart(2, "0")
+      if (gameState === GAME_STATE.GAME_IN_PROGRESS) {
+        summary.parsedDuration = `${String(Math.floor((gameTime || 0) / 60)).padStart(2, "0")
         }:${
-          String(Math.floor((game.scoreboard?.duration || 0) % 60)).padStart(2, "0")}`;
+          String(Math.floor((gameTime || 0) % 60)).padStart(2, "0")}`;
+      }
+
+      if (gameState === GAME_STATE.HERO_SELECTION) {
+        summary.gameState = "BAN/PICK";
       }
 
       return summary;
@@ -43,19 +49,44 @@ function extractTeamsFromGames(games) {
 }
 
 // eslint-disable-next-line react/prop-types
-export default function MatchSelector({ matches = [], onSelected }) {
-  const onSubmit = (matchId) => {
-    if (onSelected) {
-      onSelected(matchId);
-    }
-  };
+export default function MatchSelector() {
+  const { loading, error, data: matches } = useMatches();
+  const { setSelectedMatchId } = useContext(AppContext);
+  const onSubmit = useCallback((matchId) => {
+    setSelectedMatchId(matchId);
+  }, [setSelectedMatchId]);
 
-  return matches?.length > 0 ? (
-    <Prompts
-      items={extractTeamsFromGames(matches)}
-      onSubmit={onSubmit}
-    />
-  ) : (
-    <Text>no matches found. try refresh</Text>
+  return (
+    <Box>
+      {loading && <Text>Loading...</Text>}
+      {error && <Text color="red">{error.message}</Text>}
+      {matches && (
+        <Box flexDirection="column">
+          <Text>
+            BAN/PICK
+            {" "}
+            {">"}
+            {" "}
+            { GAME_STATE.STRATEGY_TIME }
+            {" "}
+            {">"}
+            {" "}
+            { GAME_STATE.PRE_GAME }
+            {" "}
+            {">"}
+            {" "}
+            { GAME_STATE.GAME_IN_PROGRESS }
+            {" "}
+            {">"}
+            {" "}
+            { GAME_STATE.POST_GAME }
+          </Text>
+          <Prompts
+            items={extractSummaries(matches)}
+            onSubmit={onSubmit}
+          />
+        </Box>
+      )}
+    </Box>
   );
 }

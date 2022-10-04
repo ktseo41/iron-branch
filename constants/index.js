@@ -1,7 +1,9 @@
 export const GAME_STATE = {
-  BAN_PICK_PHASE: "ban/pick phase",
-  WAIT_IN_LOBBY: "players waiting in the lobby",
-  IN_GAME: "in game",
+  HERO_SELECTION: "HERO_SELECTION",
+  STRATEGY_TIME: "STRATEGY_TIME",
+  PRE_GAME: "PRE_GAME",
+  GAME_IN_PROGRESS: "GAME_IN_PROGRESS",
+  POST_GAME: "POST_GAME",
 };
 
 export const TICK_RATE = 1000 * 1;
