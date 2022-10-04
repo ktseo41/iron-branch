@@ -9,11 +9,11 @@ import MatchSelector from "./views/MatchSelector";
 render(<App />);
 
 function App() {
-  const [selectedMatchId, setSelectedMatchId] = useState(null);
+  const [selectedMatch, setSelectedMatch] = useState(null);
   const provideValue = useMemo(() => ({
-    selectedMatchId,
-    setSelectedMatchId,
-  }), [selectedMatchId, setSelectedMatchId]);
+    selectedMatch,
+    setSelectedMatch,
+  }), [selectedMatch, setSelectedMatch]);
 
   return (
     <AppContext.Provider value={provideValue}>

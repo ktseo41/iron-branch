@@ -51,10 +51,10 @@ function extractSummaries(games) {
 // eslint-disable-next-line react/prop-types
 export default function MatchSelector() {
   const { loading, error, data: matches } = useMatches();
-  const { setSelectedMatchId } = useContext(AppContext);
-  const onSubmit = useCallback((matchId) => {
-    setSelectedMatchId(matchId);
-  }, [setSelectedMatchId]);
+  const { setSelectedMatch } = useContext(AppContext);
+  const onSubmit = useCallback((match) => {
+    setSelectedMatch(match);
+  }, [setSelectedMatch]);
 
   return (
     <Box>
