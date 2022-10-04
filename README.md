@@ -9,6 +9,7 @@
 
 <h1>Iron Branch</h1>
 
+## 🚧 I have found a fatal problem with the Steam API, currently replacing the API. If used now, the match will end as early as the stream delay.
 
 Watch dota 2 live games in terminal
 
