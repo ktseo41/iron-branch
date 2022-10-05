@@ -5,20 +5,22 @@ import {
 import { useMemo, useState } from "react";
 import AppContext from "./context/AppContext";
 import MatchSelector from "./views/MatchSelector";
+import MatchDetails from "./views/MatchDetails";
 
 render(<App />);
 
 function App() {
   const [selectedMatch, setSelectedMatch] = useState(null);
-  const provideValue = useMemo(() => ({
+  const value = useMemo(() => ({
     selectedMatch,
     setSelectedMatch,
   }), [selectedMatch, setSelectedMatch]);
 
   return (
-    <AppContext.Provider value={provideValue}>
+    <AppContext.Provider value={value}>
       <Box flexDirection="column">
-        <MatchSelector />
+        { !selectedMatch && <MatchSelector /> }
+        { selectedMatch && <MatchDetails /> }
       </Box>
     </AppContext.Provider>
   );

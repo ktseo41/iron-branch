@@ -13,8 +13,8 @@ function extractSummaries(games) {
     }) => {
       const summary = {
         id: matchId,
-        radiantTeam: radiantTeam.name,
-        direTeam: direTeam.name,
+        radiantTeam: radiantTeam?.name || "Unknown Team",
+        direTeam: direTeam?.name || "Unknown Team",
         gameState,
       };
 
@@ -50,7 +50,7 @@ function extractSummaries(games) {
 
 // eslint-disable-next-line react/prop-types
 export default function MatchSelector() {
-  const { loading, error, data: matches } = useMatches();
+  const { loading, error, matches } = useMatches();
   const { setSelectedMatch } = useContext(AppContext);
   const onSubmit = useCallback((match) => {
     setSelectedMatch(match);
@@ -60,7 +60,7 @@ export default function MatchSelector() {
     <Box>
       {loading && <Text>Loading...</Text>}
       {error && <Text color="red">{error.message}</Text>}
-      {matches && (
+      {matches && (matches.length ? (
         <Box flexDirection="column">
           <Text>
             BAN/PICK
@@ -86,7 +86,7 @@ export default function MatchSelector() {
             onSubmit={onSubmit}
           />
         </Box>
-      )}
+      ) : <Text>No matches found</Text>)}
     </Box>
   );
 }

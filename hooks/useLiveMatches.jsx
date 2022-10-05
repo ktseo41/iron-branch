@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { getLiveLeagueGames as getLiveLeagueMatches } from "../lib/apis";
-import { randomId } from "../lib/utils";
+import { useEffect, useRef } from "react";
 import { TICK_RATE } from "../constants";
+import useQuery from "./useQuery";
 import useCleanUp from "./useCleanUp";
+import { LIVE_MATCHES } from "../graphql/queries";
 
 /**
  * @typedef {Object} Cache
@@ -28,52 +28,38 @@ function setCache(matches) {
   cache.matches = matches;
 }
 
-const intervalIds = {};
-
-export default ({ useInterval, from = randomId() } = {}) => {
-  const [isFetching, setIsFetching] = useState(false);
-  const [matches, setMatches] = useState([]);
+export default function useLiveMatches() {
+  const {
+    loading, error, data, setData, query,
+  } = useQuery(LIVE_MATCHES);
+  const intervalId = useRef(null);
   const mountedRef = useCleanUp();
 
   useEffect(() => {
-    async function fetchLiveMatchesWithCache() {
-      if (!mountedRef.current) return;
-
-      const prevCache = getCache();
-
-      if (prevCache) {
-        setMatches(prevCache);
+    intervalId.current = setInterval(() => {
+      if (!mountedRef.current) {
+        clearInterval(intervalId.current);
         return;
       }
 
-      setIsFetching(true);
-      const { games: _matches } = (await getLiveLeagueMatches()) || {};
+      const cacheMatches = getCache();
 
-      if (!_matches) {
-        console.error("No matches found");
+      if (cacheMatches) {
+        setData({ live: { matches: cacheMatches } });
         return;
       }
 
-      setCache(_matches);
-      setMatches(_matches);
-      setIsFetching(false);
-    }
-
-    fetchLiveMatchesWithCache();
-
-    if (useInterval && !intervalIds[from]) {
-      intervalIds[from] = setInterval(() => {
-        if (!mountedRef.current) {
-          clearInterval(intervalIds[from]);
-          return;
-        }
-        fetchLiveMatchesWithCache();
-      }, TICK_RATE);
-      return () => clearInterval(intervalIds[from]);
-    }
-
-    return () => {};
+      query();
+    }, TICK_RATE);
   }, []);
 
-  return { matches, isFetching };
-};
+  useEffect(() => {
+    if (!mountedRef.current || !data) {
+      return;
+    }
+
+    setCache(data?.live?.matches);
+  }, [data]);
+
+  return { loading, error, matches: data?.live?.matches };
+}

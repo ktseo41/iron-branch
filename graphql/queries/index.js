@@ -4,7 +4,6 @@ query {
   live {
     matches(
       request: {
-        tiers: [UNSET, AMATEUR, PROFESSIONAL, MINOR, MAJOR, INTERNATIONAL, DPC_QUALIFIER, DPC_LEAGUE_QUALIFIER, DPC_LEAGUE, DPC_LEAGUE_FINALS]
         take: 20
       }
     ) {
