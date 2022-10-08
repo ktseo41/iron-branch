@@ -1,103 +1,59 @@
 import { useEffect, useState } from "react";
 import { Box, Text } from "ink";
-import useLiveMatches from "../hooks/useLiveMatches";
-import useHeroes from "../hooks/useHeroes";
+import useLiveCurrentMatch from "../hooks/useLiveCurrentMatch";
 import useCleanUp from "../hooks/useCleanUp";
 
 // eslint-disable-next-line react/prop-types
-export default function LivePlayerNetworth({ selectedMatchId } = {}) {
-  const { matches } = useLiveMatches({
-    useInterval: true,
-    from: "live player networth",
-  });
-  const heroes = useHeroes();
+export default function LivePlayerNetworth() {
+  const { currentMatch } = useLiveCurrentMatch();
   const [sortedPlayerNetworths, setSortedPlayerNetworths] = useState([]);
   const mountedRef = useCleanUp();
 
   useEffect(() => {
-    if (!selectedMatchId || !matches.length || !heroes?.length) return;
+    if (!currentMatch) return;
 
-    const selectedMatch = matches.find(
-      (match) => match.match_id === selectedMatchId,
-    );
+    const { players = [] } = currentMatch || {};
 
-    const { scoreboard, players } = selectedMatch || {};
-    const { radiant, dire } = scoreboard || {};
-    const { players: rPlayers } = radiant || {};
-    const { players: dPlayers } = dire || {};
-
-    if (!rPlayers || !dPlayers) {
-      console.log("No players found");
-      return;
-    }
-
-    const allPlayers = rPlayers
-      .map(({ ...rest }) => ({
-        ...rest,
-        side: "radiant",
-      }))
-      .concat(
-        dPlayers.map(({ ...rest }) => ({
-          ...rest,
-          side: "dire",
-        })),
-      );
-
-    const sortedByNetWorth = allPlayers
-      .sort((a, b) => b.net_worth - a.net_worth)
-      .map(({
-        account_id: accountId,
-        hero_id: heroId,
-        net_worth: netWorth,
-        side,
-        respawn_timer: respawnTimer,
-        kills,
-        death,
-        assists,
-      }) => ({
-        accountId,
-        playerName:
-          players?.find((player) => player.account_id === accountId)?.name
-          || "unknown player",
-        heroName:
-          heroes
-            .find((hero) => hero.id === heroId)
-            ?.name?.replace("npc_dota_hero_", "") || "unknown hero",
-        netWorth,
-        side,
-        respawnTimer,
-        kills,
-        death,
-        assists,
-      }));
+    const sortedByNetWorth = players.sort((a, b) => b.networth - a.networth);
 
     if (mountedRef.current) {
       setSortedPlayerNetworths(sortedByNetWorth);
     }
-  }, [selectedMatchId, matches, heroes]);
+  }, [currentMatch]);
 
   return (
     <Box flexDirection="column">
       {sortedPlayerNetworths.map(
         ({
-          accountId, playerName, heroName, netWorth, side, respawnTimer, kills, death, assists,
+          steamAccount: {
+            name,
+          },
+          isRadiant,
+          hero: {
+            displayName,
+          },
+          networth,
+          respawnTimer,
+          numKills,
+          numDeaths,
+          numAssists,
         }) => (
-          <Text key={accountId + heroName} dimColor={respawnTimer}>
+          <Text key={name} dimColor={respawnTimer}>
             [
-            <Text>{side.slice(0, 1).toUpperCase()}</Text>
+            <Text>{isRadiant ? "R" : "D" }</Text>
             ]
             {" "}
-            {netWorth}
+            {networth}
             {" "}
-            {`(${kills}/${death}/${assists})`}
-            {" "}
-            ||
-            {" "}
-            {heroName}
+            {`(${numKills}/${numDeaths}/${numAssists})`}
             {" "}
             ||
             {" "}
-            {playerName}
+            {displayName}
+            {" "}
+            ||
+            {" "}
+            {name}
             {
               respawnTimer && (
                 <>

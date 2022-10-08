@@ -45,7 +45,7 @@ export default function useLiveMatches() {
       const cacheMatches = getCache();
 
       if (cacheMatches) {
-        setData({ live: { matches: cacheMatches } });
+        setData({ live: { matches: cacheMatches }, cached: true });
         return;
       }
 
@@ -54,7 +54,7 @@ export default function useLiveMatches() {
   }, []);
 
   useEffect(() => {
-    if (!mountedRef.current || !data) {
+    if (!mountedRef.current || !data || data.cached) {
       return;
     }
 

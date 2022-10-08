@@ -22,6 +22,10 @@ query {
         name
       }
       players {
+        steamAccount {
+          id,
+          name,
+        },
         isRadiant
         numKills
         numDeaths
@@ -34,6 +38,15 @@ query {
         ultimateCooldown
         hero {
           displayName
+        }
+      },
+      playbackData {
+        pickBans {
+          isPick,
+          isRadiant,
+          order,
+          heroId,
+          bannedHeroId
         }
       }
     }
